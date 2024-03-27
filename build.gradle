@@ -4,22 +4,40 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
-group = 'digital.hanaro'
-version = '0.0.1-SNAPSHOT'
-
-java {
-    sourceCompatibility = '17'
+wrapper {
+    gradleVersion = '8.6'
+    distributionUrl = distributionUrl.replace("bin", "all")
 }
 
-repositories {
-    mavenCentral()
+bootJar.enabled = false
+jar.enabled = true
+
+allprojects {
+    group = 'finance-dev-backend'
+    version = '0.0.1-SNAPSHOT'
+
+    java {
+        sourceCompatibility = '17'
+    }
+
+    repositories {
+        mavenCentral()
+    }
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
-tasks.named('test') {
-    useJUnitPlatform()
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    tasks.register('prepareKotlinBuildScriptModel') {}
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
 }

@@ -1,1 +1,5 @@
 rootProject.name = 'finance-dev-backend'
+
+include 'api'
+include 'common'
+include 'domain'
