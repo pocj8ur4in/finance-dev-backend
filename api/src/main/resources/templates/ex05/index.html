@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex05. 계산기 API</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+
+<body>
+<div class="container">
+    <h1>ex05. 계산기 API</h1>
+    <form id="calculator">
+        <div class="form-group">
+            <label for="number1">숫자 1:</label>
+            <input type="number" id="number1" name="number1" required>
+        </div>
+        <div class="form-group">
+            <label for="number2">숫자 2:</label>
+            <input type="number" id="number2" name="number2" required>
+        </div>
+
+        <p>결과: <span id="result"></span></p>
+
+        <button type="button" onclick="calculate('add')">덧셈</button>
+        <button type="button" onclick="calculate('subtract')">뺄셈</button>
+        <button type="button" onclick="calculate('multiply')">곱셈</button>
+        <button type="button" onclick="calculate('divide')">나눗셈</button>
+        <button type="button" onclick="reset()">초기화</button>
+    </form>
+
+    <button type="button" onclick="document.location.href = '/'">처음으로</button>
+</div>
+
+<script>
+    async function calculate(operation) {
+        const number1 = document.getElementById("number1").value;
+        const number2 = document.getElementById("number2").value;
+        const response = await fetch(`/v1/api/ex05/${operation}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({number1, number2})
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById("result").textContent = data;
+        } else {
+            console.error('계산에 실패했습니다.');
+        }
+    }
+
+    function reset() {
+        document.getElementById("calculator").reset();
+        document.getElementById("result").textContent = '';
+    }
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 package finance.dev.api.ex04.controller;
 
-import finance.dev.api.ex04.dto.Ex04Reponse;
+import finance.dev.api.ex04.dto.Ex04Response;
 import finance.dev.domain.ex01.entity.Count;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,9 +20,9 @@ public class Ex04RestController {
     @GetMapping("/plus")
     @Operation(summary = "카운터 증가", description = "카운터 값을 1 증가시킵니다.")
     @Parameter(name = "count", description = "카운터 값", required = true)
-    public ResponseEntity<Ex04Reponse> incrementCount() {
+    public ResponseEntity<Ex04Response> incrementCount() {
         return ResponseEntity.ok(
-                Ex04Reponse.builder()
+                Ex04Response.builder()
                         .number(count.plusCnt())
                         .build()
         );
@@ -31,9 +31,9 @@ public class Ex04RestController {
     @GetMapping("/minus")
     @Operation(summary = "카운터 감소", description = "카운터 값을 1 감소시킵니다.")
     @Parameter(name = "count", description = "카운터 값", required = true)
-    public ResponseEntity<Ex04Reponse> decrementCount() {
+    public ResponseEntity<Ex04Response> decrementCount() {
         return ResponseEntity.ok(
-                Ex04Reponse.builder()
+                Ex04Response.builder()
                         .number(count.minusCnt())
                         .build()
         );
