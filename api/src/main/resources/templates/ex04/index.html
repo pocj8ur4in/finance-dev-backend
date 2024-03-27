@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex04. 카운터 API</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+
+<body>
+<div class="container">
+    <h1>ex04. 카운터 API</h1>
+    <div class="counter">
+        <p>카운터 : <span id="counter">0</span></p>
+    </div>
+    <button onclick="increase()">증가</button>
+    <button onclick="decrease()">감소</button>
+    <button type="button" onclick="document.location.href = '/'">처음으로</button>
+</div>
+
+<script>
+    async function increase() {
+        const response = await fetch('/v1/api/ex04/plus');
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById("counter").textContent = data;
+        } else {
+            console.error('카운터 증가에 실패했습니다.');
+        }
+    }
+
+    async function decrease() {
+        const response = await fetch('/v1/api/ex04/minus');
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById("counter").textContent = data;
+        } else {
+            console.error('카운터 감소에 실패했습니다.');
+        }
+    }
+</script>
+</body>
+</html>
