@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex01. 카운터</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+
+<body>
+<div class="container">
+    <h1>ex01. 카운터</h1>
+    <div class="counter">
+        <p>카운터 : <span id="counter">0</span></p>
+    </div>
+    <button onclick="plus()">증가</button>
+    <button onclick="minus()">감소</button>
+</div>
+
+<script>
+    function plus() {
+        var counterElement = document.getElementById("counter");
+        var currentValue = parseInt(counterElement.textContent);
+        counterElement.textContent = currentValue + 1;
+    }
+
+    function minus() {
+        var counterElement = document.getElementById("counter");
+        var currentValue = parseInt(counterElement.textContent);
+        counterElement.textContent = currentValue - 1;
+    }
+</script>
+</body>
+</html>
