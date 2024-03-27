@@ -31,8 +31,13 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
 
     dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter'
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: '3.2.4'
+        testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '3.2.4'
+
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+        testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+        testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
     }
 
     tasks.register('prepareKotlinBuildScriptModel') {}
