@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex02. 계산기</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+
+<body>
+<div class="container">
+    <h1>ex02. 계산기</h1>
+    <form id="calculator" method="post">
+        <div class="form-group">
+            <label for="number1">숫자 1:</label>
+            <input type="number" id="number1" name="number1" required>
+        </div>
+        <div class="form-group">
+            <label for="number2">숫자 2:</label>
+            <input type="number" id="number2" name="number2" required>
+        </div>
+        <button type="submit" formaction="/ex02/add">덧셈</button>
+        <button type="submit" formaction="/ex02/subtract">뺄셈</button>
+        <button type="submit" formaction="/ex02/multiply">곱셈</button>
+        <button type="submit" formaction="/ex02/divide">나눗셈</button>
+        <button type="button" onclick="reset()">초기화</button>
+    </form>
+
+    <p>결과: <span class="result" th:text="${result}"></span></p>
+</div>
+
+<script>
+    function reset() {
+        document.getElementById("calculator").reset();
+    }
+</script>
+</body>
+</html>
