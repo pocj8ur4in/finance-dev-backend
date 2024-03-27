@@ -10,7 +10,7 @@ body {
 }
 
 h1, h2, h3 {
-    color: #007bff;
+    color: #28a745;
     text-align: center;
     margin-top: 0;
     margin-bottom: 20px;
@@ -18,6 +18,7 @@ h1, h2, h3 {
 
 .container {
     max-width: 100%;
+    min-width: 352px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -25,9 +26,9 @@ h1, h2, h3 {
     box-sizing: border-box;
 }
 
-
 table {
     width: 100%;
+    min-width: 312px;
     border-collapse: separate;
     border-spacing: 0;
     margin-top: 20px;
@@ -37,12 +38,12 @@ table {
 }
 
 th, td {
-    padding: 15px;
+    padding: 10px;
     text-align: center;
 }
 
 th {
-    background-color: #007bff;
+    background-color: #28a745;
     color: #fff;
 }
 
@@ -59,10 +60,13 @@ tr:hover {
     background-color: #e9ecef;
 }
 
+table button.table-button {
+    min-width: 75px;
+}
+
 button, .btn {
     width: 100%;
-    font-size: 16px;
-    padding: 12px 24px;
+    padding: 9px 18px;
     margin: 8px 0;
     cursor: pointer;
     border: none;
@@ -72,7 +76,7 @@ button, .btn {
 }
 
 button:hover, .btn:hover {
-    background-color: #0056b3;
+    background-color: #218838;
 }
 
 .btn-edit {
@@ -86,7 +90,7 @@ button:hover, .btn:hover {
 }
 
 .btn-add {
-    background-color: #007bff;
+    background-color: #28a745;
     color: #fff;
 }
 
@@ -99,15 +103,13 @@ button:hover, .btn:hover {
 }
 
 .btn-add:hover {
-    background-color: #0056b3;
+    background-color: #218838;
 }
-
 
 p, #productCount {
     margin-top: 20px;
     color: #333;
     text-align: center;
-    font-size: 18px;
 }
 
 .hidden {
@@ -136,7 +138,7 @@ form {
 }
 
 .form-group input[type="number"] {
-    width: calc(50% - 5px);
+    width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -145,7 +147,7 @@ form {
 }
 
 input[type="number"]:focus {
-    border-color: #007bff;
+    border-color: #28a745;
     outline: none;
 }
 
@@ -156,7 +158,6 @@ input[type="number"]:focus {
 }
 
 .counter {
-    font-size: 24px;
     margin-bottom: 20px;
     color: #333;
     text-align: center;
@@ -164,7 +165,7 @@ input[type="number"]:focus {
 
 span.result {
     font-weight: bold;
-    color: #007bff;
+    color: #28a745;
 }
 
 ul {
@@ -186,6 +187,6 @@ ul li a {
 }
 
 ul li a:hover {
-    background-color: #007bff;
+    background-color: #28a745;
     color: #fff;
 }

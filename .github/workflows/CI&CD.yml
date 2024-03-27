@@ -97,9 +97,9 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            sudo docker stop ${{ secrets.DOCKERHUB_NAME }}:latest
+            sudo docker stop ${{ secrets.DOCKERHUB_NAME }}
             
-            sudo docker rm -f ${{ secrets.DOCKERHUB_NAME }}:latest
+            sudo docker rm -f ${{ secrets.DOCKERHUB_NAME }}
             
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_NAME }}:latest
             
