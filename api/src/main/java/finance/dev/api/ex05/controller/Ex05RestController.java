@@ -12,8 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/v1/api/ex05")
 @RequiredArgsConstructor
 @Tag(name = "ex05", description = "계산기를 이용하여 더하기, 빼기, 곱하기, 나누기를 수행합니다.")

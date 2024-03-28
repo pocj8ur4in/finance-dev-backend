@@ -9,11 +9,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
                 "finance.dev.domain"
         }
 )
-
 public class ApiApplication {
-
     public static void main(String[] args) {
+        System.setProperty(
+                "spring.config.name",
+                "application, application-api, application-common, application-domain");
+
         SpringApplication.run(ApiApplication.class, args);
     }
-
 }
