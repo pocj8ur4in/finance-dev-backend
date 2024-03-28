@@ -1,9 +1,9 @@
 package finance.dev.api.ex06.controller;
 
-import finance.dev.api.ex06.dto.Ex06DeleteRequest;
-import finance.dev.api.ex06.dto.Ex06GetResponse;
-import finance.dev.api.ex06.dto.Ex06PostRequest;
-import finance.dev.api.ex06.dto.Ex06PutRequest;
+import finance.dev.domain.ex06.dto.Ex06DeleteRequest;
+import finance.dev.domain.ex06.dto.Ex06GetResponse;
+import finance.dev.domain.ex06.dto.Ex06PostRequest;
+import finance.dev.domain.ex06.dto.Ex06PutRequest;
 import finance.dev.domain.ex03.entity.VendingMachine;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,7 +23,7 @@ public class Ex06RestController {
     @GetMapping
     @Operation(summary = "상품 목록 조회", description = "상품 목록을 조회합니다.")
     public ResponseEntity<Ex06GetResponse> get() {
-        return ResponseEntity.ok(new Ex06GetResponse(vendingMachine.getProductArrayList()));
+        return ResponseEntity.ok(new Ex06GetResponse());
     }
 
     @PostMapping("/add")

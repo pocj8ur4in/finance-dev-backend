@@ -1,4 +1,4 @@
-package finance.dev.api.ex05.dto;
+package finance.dev.domain.ex05.dto;
 
 public class Ex05Request {
     private int number1;

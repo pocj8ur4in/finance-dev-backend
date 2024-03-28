@@ -1,4 +1,4 @@
-package finance.dev.api.ex04.dto;
+package finance.dev.domain.ex04.dto;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package finance.dev.api.ex04.controller;
 
-import finance.dev.api.ex04.dto.Ex04Response;
+import finance.dev.domain.ex04.dto.Ex04Response;
 import finance.dev.domain.ex01.entity.Count;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
