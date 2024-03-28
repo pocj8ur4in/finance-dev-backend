@@ -194,7 +194,8 @@ ul li a:hover {
 .button-row {
     display: flex;
     justify-content: space-around;
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .button-row button {
