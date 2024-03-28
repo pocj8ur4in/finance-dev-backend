@@ -23,7 +23,7 @@
         const response = await fetch('/v1/api/ex04/plus');
         if (response.ok) {
             const data = await response.json();
-            document.getElementById("counter").textContent = data;
+            document.getElementById("counter").textContent = data.number;
         } else {
             console.error('카운터 증가에 실패했습니다.');
         }
@@ -33,7 +33,7 @@
         const response = await fetch('/v1/api/ex04/minus');
         if (response.ok) {
             const data = await response.json();
-            document.getElementById("counter").textContent = data;
+            document.getElementById("counter").textContent = data.number;
         } else {
             console.error('카운터 감소에 실패했습니다.');
         }

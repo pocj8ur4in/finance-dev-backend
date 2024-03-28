@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/v1/api/ex04")
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Ex04RestController {
     private final Count count;
     @GetMapping("/plus")
+    @ResponseBody
     @Operation(summary = "카운터 증가", description = "카운터 값을 1 증가시킵니다.")
     @Parameter(name = "count", description = "카운터 값", required = true)
     public ResponseEntity<Ex04Response> incrementCount() {
@@ -29,6 +31,7 @@ public class Ex04RestController {
     }
 
     @GetMapping("/minus")
+    @ResponseBody
     @Operation(summary = "카운터 감소", description = "카운터 값을 1 감소시킵니다.")
     @Parameter(name = "count", description = "카운터 값", required = true)
     public ResponseEntity<Ex04Response> decrementCount() {

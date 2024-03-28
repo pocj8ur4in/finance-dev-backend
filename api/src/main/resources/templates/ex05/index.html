@@ -46,7 +46,7 @@
 
         if (response.ok) {
             const data = await response.json();
-            document.getElementById("result").textContent = data;
+            document.getElementById("result").textContent = data.result;
         } else {
             console.error('계산에 실패했습니다.');
         }
