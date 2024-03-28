@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex06. 자판기</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+<body>
+<div class="container">
+    <h1 lang="ko">ex06. 자판기</h1>
+    <h3>자판기 상품 조회</h3>
+
+    <p id="productCount">상품 개수: 0개</p>
+
+    <table id="productTable" class="hidden">
+        <thead>
+        <tr>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>유통기한</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <button class="btn btn-add" onclick="addProduct()">상품 추가</button>
+    <button type="button" onclick="document.location.href = '/'">처음으로</button>
+</div>
+<script>
+    function toggleTableVisibility() {
+        var table = document.getElementById('productTable');
+        if (table.getElementsByTagName('tbody')[0].childElementCount === 0) {
+            table.classList.add('hidden');
+        } else {
+            table.classList.remove('hidden');
+        }
+    }
+
+    function updateProduct(name) {
+        document.location.href = '/ex06/update/' + name;
+    }
+
+    function addProduct() {
+        document.location.href = '/ex06/add';
+    }
+
+    function deleteProduct(name) {
+        if (confirm('정말 삭제하시겠습니까?')) {
+            fetch('/v1/api/ex06/delete', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "name": name })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('삭제 실패');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    }
+
+    function printProductCount() {
+        fetch('/v1/api/ex06')
+            .then(response => response.json())
+            .then(data => {
+                var products = data.products;
+                var productCount = products.length;
+                var productCountText = '상품 개수: ' + productCount + '개';
+                document.getElementById('productCount').textContent = productCountText;
+
+                var tbody = document.querySelector('#productTable tbody');
+                tbody.innerHTML = '';
+
+                products.forEach(product => {
+                    var tr = document.createElement('tr');
+                    tr.setAttribute('data-name', product.name);
+
+                    var tdName = document.createElement('td');
+                    tdName.textContent = product.name;
+                    tr.appendChild(tdName);
+
+                    var tdPrice = document.createElement('td');
+                    tdPrice.textContent = product.price;
+                    tr.appendChild(tdPrice);
+
+                    var tdDate = document.createElement('td');
+                    tdDate.textContent = product.date;
+                    tr.appendChild(tdDate);
+
+                    var tdEdit = document.createElement('td');
+                    var editButton = document.createElement('button');
+                    editButton.className = 'btn btn-edit';
+                    editButton.textContent = '수정';
+                    editButton.onclick = function() {
+                        updateProduct(product.name);
+                    };
+                    tdEdit.appendChild(editButton);
+                    tr.appendChild(tdEdit);
+
+                    var tdDelete = document.createElement('td');
+                    var deleteButton = document.createElement('button');
+                    deleteButton.className = 'btn btn-delete';
+                    deleteButton.textContent = '삭제';
+                    deleteButton.onclick = function() {
+                        deleteProduct(product.name);
+                    };
+                    tdDelete.appendChild(deleteButton);
+                    tr.appendChild(tdDelete);
+
+                    tbody.appendChild(tr);
+                });
+
+                toggleTableVisibility();
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+
+    printProductCount();
+</script>
+</body>
+</html>

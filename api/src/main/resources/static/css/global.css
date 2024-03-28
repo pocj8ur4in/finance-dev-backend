@@ -190,3 +190,13 @@ ul li a:hover {
     background-color: #28a745;
     color: #fff;
 }
+
+.button-row {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.button-row button {
+    margin: 0 5px;
+}
