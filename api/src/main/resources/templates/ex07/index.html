@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex07. 로그인/회원가입</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+
+<body>
+<div class="container">
+    <h1>ex07. 로그인/회원가입</h1>
+    <p class="message"></p>
+    <div class="login-info">
+        <h3 th:text="${message}"></h3>
+        <ul th:if="${cookie != null}">
+            로그인 성공!
+        </ul>
+    </div>
+    <div class="button-row">
+        <button onclick="location.href='/ex07/login'" class="btn">로그인</button>
+        <button onclick="location.href='/ex07/register'" class="btn">회원가입</button>
+        <button onclick="location.href='/'" class="btn">처음으로</button>
+    </div>
+</div>
+</body>
+</html>

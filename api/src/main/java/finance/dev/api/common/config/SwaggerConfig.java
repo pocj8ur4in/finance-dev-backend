@@ -1,4 +1,4 @@
-package finance.dev.api.config;
+package finance.dev.api.common.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;

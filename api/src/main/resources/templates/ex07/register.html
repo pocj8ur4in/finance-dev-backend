@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex07. 로그인/회원가입</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+<body onload="validateForm()">
+<div class="container">
+    <h1>ex07. 로그인/회원가입</h1>
+    <h3 th:text="${message}"></h3>
+    <form action="/ex07/register" method="post" oninput="validateForm()">
+        <div class="form-group">
+            <label for="username">아이디</label>
+            <input type="text" id="username" name="username" required>
+            <small class="message-username"></small>
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password" required>
+            <small class="message-password"></small>
+        </div>
+        <div class="form-group">
+            <label for="passwordConfirm">비밀번호 확인</label>
+            <input type="password" id="passwordConfirm" name="passwordConfirm" required>
+            <small class="message-password-confirm"></small>
+        </div>
+        <div>
+            <label for="terms">약관 동의</label>
+            <input type="checkbox" id="terms" name="terms" required>
+            <small class="message-password-confirm"></small>
+        </div>
+        <button type="submit" class="btn btn-add">회원가입</button>
+    </form>
+    <div class="button-row">
+        <button onclick="location.href='/ex07'" class="btn">홈</button>
+        <button onclick="location.href='/ex07/login'" class="btn">로그인</button>
+        <button onclick="location.href='/'" class="btn">처음으로</button>
+    </div>
+</div>
+<script>
+    function validateForm() {
+        checkUsername();
+        checkPassword();
+        checkPasswordConfirm();
+        checkTerms();
+    }
+
+    function checkUsername() {
+        const username = document.getElementById('username').value;
+        const message = document.querySelector('.message-username');
+
+        message.innerHTML = '';
+        if (username.length === 0) message.innerHTML += '<br>아이디를 입력해주세요.';
+        if (username.length < 4) message.innerHTML += '<br>아이디는 4자리 이상으로 입력해주세요.';
+        if (username.length > 12) message.innerHTML += '<br>아이디는 12자리 이하로 입력해주세요.';
+        if (!/^[a-zA-Z0-9]*$/.test(username)) message.innerHTML += '<br>아이디는 영문 대소문자, 숫자로만 입력해주세요.';
+        if (username.includes(' ')) message.innerHTML += '<br>아이디에 공백을 포함할 수 없습니다.';
+        if (message.innerHTML.startsWith('<br>')) message.innerHTML = message.innerHTML.substring(4);
+    }
+
+    function checkPassword() {
+        const password = document.getElementById('password').value;
+        const message = document.querySelector('.message-password');
+
+        message.innerHTML = '';
+        if (password.length === 0) message.innerHTML += '<br>비밀번호를 입력해주세요.';
+        if (password.length < 8) message.innerHTML += '<br>비밀번호는 8자리 이상으로 입력해주세요.';
+        if (password.length > 16) message.innerHTML += '<br>비밀번호는 16자리 이하로 입력해주세요.';
+        if (!/^[a-zA-Z0-9!@#$%^&*]*$/.test(password)) message.innerHTML += '<br>비밀번호는 영문 대소문자, 숫자, 특수문자 (!@#$%^&*)로만 입력해주세요.';
+        if (password.includes(' ')) message.innerHTML += '<br>비밀번호에 공백을 포함할 수 없습니다.';
+        if (message.innerHTML.startsWith('<br>')) message.innerHTML = message.innerHTML.substring(4);
+    }
+
+    function checkPasswordConfirm() {
+        const password = document.getElementById('password').value;
+        const passwordConfirm = document.getElementById('passwordConfirm').value;
+        const message = document.querySelector('.message-password-confirm');
+
+        message.innerHTML = '';
+        if (passwordConfirm.length === 0) message.innerHTML += '<br>비밀번호 확인을 입력해주세요.';
+        if (password !== passwordConfirm) message.innerHTML += '<br>비밀번호가 일치하지 않습니다.';
+        if (message.innerHTML.startsWith('<br>')) message.innerHTML = message.innerHTML.substring(4);
+    }
+
+    function checkTerms() {
+        const terms = document.getElementById('terms').checked;
+        const message = document.querySelector('.message-terms');
+
+        message.innerHTML = '';
+        if (!terms) message.innerHTML += '<br>약관에 동의해주세요.';
+        if (message.innerHTML.startsWith('<br>')) message.innerHTML = message.innerHTML.substring(4);
+    }
+</script>
+</body>
+</html>

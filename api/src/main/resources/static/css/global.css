@@ -137,6 +137,22 @@ form {
     margin-right: 10px;
 }
 
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #28a745;
+    outline: none;
+}
+
 .form-group input[type="number"] {
     width: 100%;
     padding: 12px;
@@ -199,5 +215,17 @@ ul li a:hover {
 }
 
 .button-row button {
-    margin: 0 5px;
+    margin: 5px;
+}
+
+.message {
+    margin-top: 20px;
+    color: #333;
+    text-align: center;
+}
+
+small {
+    margin-top: 4px;
+    color: red;
+    text-align: left;
 }
