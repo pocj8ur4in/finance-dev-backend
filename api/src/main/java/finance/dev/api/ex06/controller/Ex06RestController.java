@@ -1,7 +1,7 @@
 package finance.dev.api.ex06.controller;
 
+import finance.dev.domain.ex03.entity.Product;
 import finance.dev.domain.ex06.dto.Ex06DeleteRequest;
-import finance.dev.domain.ex06.dto.Ex06GetResponse;
 import finance.dev.domain.ex06.dto.Ex06PostRequest;
 import finance.dev.domain.ex06.dto.Ex06PutRequest;
 import finance.dev.domain.ex03.entity.VendingMachine;
@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/v1/api/ex06")
 @RequiredArgsConstructor
@@ -22,8 +24,9 @@ public class Ex06RestController {
 
     @GetMapping
     @Operation(summary = "상품 목록 조회", description = "상품 목록을 조회합니다.")
-    public ResponseEntity<Ex06GetResponse> get() {
-        return ResponseEntity.ok(new Ex06GetResponse());
+    public ResponseEntity<ArrayList<Product>> get() {
+        ArrayList<Product> products = vendingMachine.getProductArrayList();
+        return ResponseEntity.ok(products);
     }
 
     @PostMapping("/add")

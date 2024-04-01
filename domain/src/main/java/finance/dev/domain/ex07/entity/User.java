@@ -1,9 +1,12 @@
 package finance.dev.domain.ex07.entity;
 
+import finance.dev.domain.board.entity.Date;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 @Getter
@@ -13,20 +16,14 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private String role;
-    private String provider;
-    private String providerId;
-    private String profileImage;
+    private LocalDate createdAt;
 
     @Builder
-    public User(Long id, String username, String email, String password, String role, String provider, String providerId, String profileImage) {
+    public User(Long id, String username, String email, String password, LocalDate createdAt) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
-        this.provider = provider;
-        this.providerId = providerId;
-        this.profileImage = profileImage;
+        this.createdAt = createdAt;
     }
 }

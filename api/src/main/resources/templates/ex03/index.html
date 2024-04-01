@@ -40,7 +40,7 @@
 </div>
 <script>
     function toggleTableVisibility() {
-        var table = document.getElementById('productTable');
+        const table = document.getElementById('productTable');
         if (table.getElementsByTagName('tbody')[0].childElementCount === 0) {
             table.classList.add('hidden');
         } else {
@@ -61,9 +61,8 @@
     }
 
     function printProductCount() {
-        var productCount = document.getElementById('productTable').getElementsByTagName('tbody')[0].childElementCount;
-        var productCountText = '상품 개수: ' + productCount + '개'
-        document.getElementById('productCount').textContent = productCountText;
+        const productCount = document.getElementById('productTable').getElementsByTagName('tbody')[0].childElementCount;
+        document.getElementById('productCount').textContent = '상품 개수: ' + productCount + '개';
     }
 
     toggleTableVisibility();

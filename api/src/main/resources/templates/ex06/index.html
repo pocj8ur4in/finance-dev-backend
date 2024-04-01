@@ -13,119 +13,83 @@
 
     <p id="productCount">상품 개수: 0개</p>
 
-    <table id="productTable" class="hidden">
-        <thead>
-        <tr>
-            <th>상품명</th>
-            <th>가격</th>
-            <th>유통기한</th>
-            <th>수정</th>
-            <th>삭제</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <table id="productTable"></table>
 
-    <button class="btn btn-add" onclick="addProduct()">상품 추가</button>
+    <button class="btn btn-add" onclick="document.location.href = '/ex06/add'">상품 추가</button>
     <button type="button" onclick="document.location.href = '/'">처음으로</button>
 </div>
 <script>
-    function toggleTableVisibility() {
-        var table = document.getElementById('productTable');
-        if (table.getElementsByTagName('tbody')[0].childElementCount === 0) {
-            table.classList.add('hidden');
+    async function fetchProducts() {
+        const response = await fetch('/v1/api/ex06');
+        if (response.ok) {
+            return await response.json();
         } else {
-            table.classList.remove('hidden');
+            alert('상품을 불러오는데 실패했습니다.');
+            return [];
         }
     }
 
-    function updateProduct(name) {
-        document.location.href = '/ex06/update/' + name;
-    }
-
-    function addProduct() {
-        document.location.href = '/ex06/add';
-    }
-
-    function deleteProduct(name) {
+    async function deleteProduct(name) {
         if (confirm('정말 삭제하시겠습니까?')) {
-            fetch('/v1/api/ex06/delete', {
+            const response = await fetch('/v1/api/ex06/delete', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ "name": name })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        location.reload();
-                    } else {
-                        alert('삭제 실패');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+                body: JSON.stringify({ name: name })
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('삭제 실패');
+            }
         }
     }
 
-    function printProductCount() {
-        fetch('/v1/api/ex06')
-            .then(response => response.json())
-            .then(data => {
-                var products = data.products;
-                var productCount = products.length;
-                var productCountText = '상품 개수: ' + productCount + '개';
-                document.getElementById('productCount').textContent = productCountText;
-
-                var tbody = document.querySelector('#productTable tbody');
-                tbody.innerHTML = '';
-
-                products.forEach(product => {
-                    var tr = document.createElement('tr');
-                    tr.setAttribute('data-name', product.name);
-
-                    var tdName = document.createElement('td');
-                    tdName.textContent = product.name;
-                    tr.appendChild(tdName);
-
-                    var tdPrice = document.createElement('td');
-                    tdPrice.textContent = product.price;
-                    tr.appendChild(tdPrice);
-
-                    var tdDate = document.createElement('td');
-                    tdDate.textContent = product.date;
-                    tr.appendChild(tdDate);
-
-                    var tdEdit = document.createElement('td');
-                    var editButton = document.createElement('button');
-                    editButton.className = 'btn btn-edit';
-                    editButton.textContent = '수정';
-                    editButton.onclick = function() {
-                        updateProduct(product.name);
-                    };
-                    tdEdit.appendChild(editButton);
-                    tr.appendChild(tdEdit);
-
-                    var tdDelete = document.createElement('td');
-                    var deleteButton = document.createElement('button');
-                    deleteButton.className = 'btn btn-delete';
-                    deleteButton.textContent = '삭제';
-                    deleteButton.onclick = function() {
-                        deleteProduct(product.name);
-                    };
-                    tdDelete.appendChild(deleteButton);
-                    tr.appendChild(tdDelete);
-
-                    tbody.appendChild(tr);
-                });
-
-                toggleTableVisibility();
-            })
-            .catch(error => console.error('Error:', error));
+    async function printProductCount() {
+        const products = await fetchProducts();
+        const productCount = products.length;
+        document.getElementById('productCount').textContent = '상품 개수: ' + productCount + '개';
     }
 
+    async function loadProducts() {
+        const products = await fetchProducts();
 
-    printProductCount();
+        if (products.length === 0) {
+            return;
+        }
+
+        const table = document.getElementById('productTable');
+        const thead = document.createElement('thead');
+        table.appendChild(thead);
+        thead.innerHTML = `
+            <tr>
+                <th>상품명</th>
+                <th>가격</th>
+                <th>유통기한</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+        `;
+        const tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+
+        products.forEach(product => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${product.name}</td>
+                <td>${product.price}</td>
+                <td>${product.date}</td>
+                <td><button class="btn btn-edit" onclick="document.location.href='/ex06/update/${product.name}'">수정</button></td>
+                <td><button class="btn btn-delete" onclick="deleteProduct('${product.name}')">삭제</button></td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        await printProductCount();
+    }
+
+    loadProducts();
 </script>
 </body>
 </html>

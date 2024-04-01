@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class UserList {
                         .id((long) (users.size() + 1))
                         .username(registerRequest.getUsername())
                         .password(registerRequest.getPassword())
+                        .createdAt(LocalDate.now())
                         .build()
         );
     }
