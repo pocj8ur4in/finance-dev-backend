@@ -18,6 +18,10 @@ import java.util.List;
 public class UserList {
     private final List<User> users = new ArrayList<>();
 
+    public ArrayList<User> getUsers() {
+        return (ArrayList<User>) users;
+    }
+
     public void register(RegisterRequest registerRequest) {
         List<String> errorMessages = new ArrayList<>();
 

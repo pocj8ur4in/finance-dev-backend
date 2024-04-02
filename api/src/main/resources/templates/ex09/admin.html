@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex09. 회원 관리자 페이지</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+<body>
+<div class="container">
+    <h1>ex09. 회원 관리자 페이지</h1>
+    <p th:text="${message}"></p>
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>아이디</th>
+            <th>비밀번호</th>
+            <th>가입일</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member, stat : ${members}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${member.userid}"></td>
+            <td th:text="${member.userpw}"></td>
+            <td th:text="${member.regdate}"></td>
+            <td><button onclick="location.href='/ex09/update/${member.userid}'" class="btn">수정</button></td>
+            <td><button onclick="location.href='/ex09/delete/${member.userid}'" class="btn">삭제</button></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="button-row">
+        <button onclick="location.href='/ex09'" class="btn">홈</button>
+        <button onclick="location.href='/'" class="btn">처음으로</button>
+    </div>
+</div>
+</body>
+</html>
