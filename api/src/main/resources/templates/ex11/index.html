@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex11. 자판기 with DB</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+<body>
+<div class="container">
+<h1 lang="ko">ex11. 자판기 with DB</h1>
+<h3>자판기 상품 조회</h3>
+
+<p id="productCount">상품 개수: </p>
+
+<table id="productTable" class="hidden">
+    <thead>
+    <tr>
+        <th>상품명</th>
+        <th>가격</th>
+        <th>유통기한</th>
+        <th>수정</th>
+        <th>삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="product : ${products}" th:attr="data-name=${product.name}">
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.date}"></td>
+        <td><button class="btn btn-edit" onclick="updateProduct(this)">수정</button></td>
+        <td><button class="btn btn-delete" onclick="deleteProduct(this)">삭제</button></td>
+    </tr>
+    </tbody>
+</table>
+
+<button class="btn btn-add" onclick="document.location.href = '/ex11/add'">상품 추가</button>
+<button type="button" onclick="document.location.href = '/'">처음으로</button>
+</div>
+<script>
+    function toggleTableVisibility() {
+        const table = document.getElementById('productTable');
+        if (table.getElementsByTagName('tbody')[0].childElementCount === 0) {
+            table.classList.add('hidden');
+        } else {
+            table.classList.remove('hidden');
+        }
+    }
+
+    function updateProduct(button) {
+        document.location.href = '/ex11/update/' +
+            button.parentElement.parentElement.getAttribute('data-name');
+    }
+
+    function deleteProduct(button) {
+        if (confirm('정말 삭제하시겠습니까?')) {
+            document.location.href = '/ex11/delete/' +
+                button.parentElement.parentElement.getAttribute('data-name');
+        }
+    }
+
+    function printProductCount() {
+        const productCount = document.getElementById('productTable').getElementsByTagName('tbody')[0].childElementCount;
+        document.getElementById('productCount').textContent = '상품 개수: ' + productCount + '개';
+    }
+
+    toggleTableVisibility();
+    printProductCount();
+</script>
+</body>
+</html>
