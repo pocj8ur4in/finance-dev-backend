@@ -6,15 +6,11 @@ import finance.dev.domain.ex07.dto.RegisterRequest;
 import finance.dev.domain.ex07.dto.UsernameCheckRequest;
 import finance.dev.domain.ex07.entity.User;
 import finance.dev.domain.ex07.entity.UserList;
-import finance.dev.domain.ex09.dto.AdminReadUsersResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -71,8 +67,11 @@ public class Ex09Controller {
     public String ex09LoginPOST(LoginRequest loginRequest,
             Model model) {
         try {
-            if (loginRequest.getUsername().equals("admin") && loginRequest.getPassword().equals("1234")) {
-                return "ex09/admin";
+            if (loginRequest.getUsername().equals("admin")) {
+                if (!loginRequest.getPassword().equals("1234")) {
+                    throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+                }
+                return "redirect:/ex09/admin";
             } else {
                 User loginUser = users.login(loginRequest);
 
@@ -112,8 +111,40 @@ public class Ex09Controller {
     @GetMapping("/ex09/admin")
     public String ex09AdminGET(Model model) {
         model.addAttribute("message", "관리자 페이지");
-        model.addAttribute("members", new AdminReadUsersResponse(users.getUsers()));
+        model.addAttribute("members", users.getUsers());
 
         return "ex09/admin";
+    }
+
+    @GetMapping("/ex09/delete/{username}")
+    public String ex09DeletePOST(@PathVariable("username") String username,
+                                    Model model) {
+        try {
+            users.delete(username);
+            return "redirect:/ex09/admin";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("message", e.getMessage());
+            return "redirect:/ex09/admin";
+        } catch (Exception e) {
+            model.addAttribute("message", "알 수 없는 오류가 발생했습니다.");
+            return "redirect:/ex09/admin";
+        }
+    }
+
+    @PostMapping("/ex09/update/{username}")
+    public String ex09UpdatePOST(@PathVariable("username") String target,
+                                    @RequestParam("username") String username,
+                                    @RequestParam("password") String password,
+                                    Model model) {
+        try {
+            users.update(target, username, password);
+            return "redirect:/ex09/admin";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("message", e.getMessage());
+            return "redirect:/ex09/admin";
+        } catch (Exception e) {
+            model.addAttribute("message", "알 수 없는 오류가 발생했습니다.");
+            return "redirect:/ex09/admin";
+        }
     }
 }

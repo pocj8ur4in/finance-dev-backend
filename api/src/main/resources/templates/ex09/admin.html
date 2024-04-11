@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <h1>ex09. 회원 관리자 페이지</h1>
-    <p th:text="${message}"></p>
+    <h3 th:text="${message}"></h3>
     <table>
         <thead>
         <tr>
@@ -22,13 +22,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="member, stat : ${members}">
+        <tr th:each="member, stat : ${members}" th:attr="data-name=${member.username}">
             <td th:text="${stat.count}"></td>
-            <td th:text="${member.userid}"></td>
-            <td th:text="${member.userpw}"></td>
-            <td th:text="${member.regdate}"></td>
-            <td><button onclick="location.href='/ex09/update/${member.userid}'" class="btn">수정</button></td>
-            <td><button onclick="location.href='/ex09/delete/${member.userid}'" class="btn">삭제</button></td>
+            <td th:text="${member.username}"></td>
+            <td th:text="${member.password}"></td>
+            <td th:text="${member.createdAt}"></td>
+            <td><button onclick="updateMember(this)" class="btn">수정</button></td>
+            <td><button onclick="deleteMember(this)" class="btn">삭제</button></td>
         </tr>
         </tbody>
     </table>
@@ -38,4 +38,77 @@
     </div>
 </div>
 </body>
+<script>
+    function updateMember(button) {
+        const modal = document.createElement('div');
+        modal.classList.add('modal');
+
+        modal.addEventListener('click', function (event) {
+            if (event.target === this) document.body.removeChild(this);
+        });
+
+        const form = document.createElement('form');
+        form.action = '/ex09/update/' + button.parentElement.parentElement.getAttribute('data-name');
+        form.method = 'post';
+        form.innerHTML = `
+            <div class="modal-header">
+                <h2>회원정보 수정</h2>
+            </div>
+            <div class="form-group">
+                <label for="username">아이디</label>
+                <input type="text" id="username" name="username" value="${button.parentElement.parentElement.getAttribute('data-name')}" oninput="checkUsername()">
+                <div class="message-username"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="text" id="password" name="password" value="${button.parentElement.parentElement.children[2].innerText}" oninput="checkPassword()">
+                <div class="message-password"></div>
+            </div>
+            <div class="form-group">
+                <label for="createdAt">가입일</label>
+                <input type="text" id="createdAt" name="createdAt" value="${button.parentElement.parentElement.children[3].innerText}" readonly>
+            </div>
+            <div class="button-row">
+                <button type="submit" class="btn">확인</button>
+                <button type="button" onclick="document.body.removeChild(this.parentElement.parentElement.parentElement)" class="btn">취소</button>
+            </di>
+        `;
+
+        modal.appendChild(form);
+        document.body.appendChild(modal);
+    }
+
+    function deleteMember(button) {
+        if (confirm('정말 삭제하시겠습니까?')) {
+            location.href = '/ex09/delete/' + button.parentElement.parentElement.getAttribute('data-name');
+        }
+    }
+
+    function checkUsername() {
+        const username = document.getElementById('username').value;
+        const message = document.querySelector('.message-username');
+
+        message.innerHTML = '';
+        if (username === 'admin') message.innerHTML += '<br>사용할 수 없는 아이디입니다.';
+        if (username.length === 0) message.innerHTML += '<br>아이디를 입력해주세요.';
+        if (username.length < 4) message.innerHTML += '<br>아이디는 4자리 이상으로 입력해주세요.';
+        if (username.length > 12) message.innerHTML += '<br>아이디는 12자리 이하로 입력해주세요.';
+        if (!/^[a-zA-Z0-9]*$/.test(username)) message.innerHTML += '<br>아이디는 영문 대소문자, 숫자로만 입력해주세요.';
+        if (username.includes(' ')) message.innerHTML += '<br>아이디에 공백을 포함할 수 없습니다.';
+        if (message.innerHTML.startsWith('<br>')) message.innerHTML = message.innerHTML.substring(4);
+    }
+
+    function checkPassword() {
+        const password = document.getElementById('password').value;
+        const message = document.querySelector('.message-password');
+
+        message.innerHTML = '';
+        if (password.length === 0) message.innerHTML += '<br>비밀번호를 입력해주세요.';
+        if (password.length < 8) message.innerHTML += '<br>비밀번호는 8자리 이상으로 입력해주세요.';
+        if (password.length > 16) message.innerHTML += '<br>비밀번호는 16자리 이하로 입력해주세요.';
+        if (!/^[a-zA-Z0-9!@#$%^&*]*$/.test(password)) message.innerHTML += '<br>비밀번호는 영문 대소문자, 숫자, 특수문자 (!@#$%^&*)로만 입력해주세요.';
+        if (password.includes(' ')) message.innerHTML += '<br>비밀번호에 공백을 포함할 수 없습니다.';
+        if (message.innerHTML.startsWith('<br>')) message.innerHTML = message.innerHTML.substring(4);
+    }
+</script>
 </html>

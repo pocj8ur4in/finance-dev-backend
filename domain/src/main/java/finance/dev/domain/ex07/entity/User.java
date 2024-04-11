@@ -1,6 +1,5 @@
 package finance.dev.domain.ex07.entity;
 
-import finance.dev.domain.board.entity.Date;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +16,14 @@ public class User {
     private String email;
     private String password;
     private LocalDate createdAt;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword (String password) {
+        this.password = password;
+    }
 
     @Builder
     public User(Long id, String username, String email, String password, LocalDate createdAt) {
