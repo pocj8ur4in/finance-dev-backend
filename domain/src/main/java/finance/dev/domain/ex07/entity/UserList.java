@@ -112,8 +112,8 @@ public class UserList {
             errorMessages.add("사용할 수 없는 아이디입니다.");
         }
 
-        // 아이디 중복 확인
-        if (users.stream().anyMatch(user -> user.getUsername().equals(username))) {
+        // 아이디 중복 확인 (단, target 아이디는 중복 확인에서 제외)
+        if (users.stream().anyMatch(user -> user.getUsername().equals(username) && !user.getUsername().equals(target))) {
             errorMessages.add("이미 존재하는 아이디입니다.");
         }
 
