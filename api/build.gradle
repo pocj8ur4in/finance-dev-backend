@@ -5,6 +5,14 @@ dependencies {
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
 
+    implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.0.0'
+
+    implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '10.1.20'
+
+    implementation group: 'jakarta.servlet.jsp.jstl', name: 'jakarta.servlet.jsp.jstl-api', version: '3.0.0'
+
+    implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '3.0.1'
+
     implementation project(':common')
     implementation project(':domain')
 }
