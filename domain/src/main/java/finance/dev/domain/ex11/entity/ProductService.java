@@ -27,8 +27,16 @@ public class ProductService {
 
     @Transactional
     public void update(String target, Product product) {
-        productRepository.deleteByName(target);
-        productRepository.save(product);
+        Product targetProduct = productRepository.findByName(target);
+
+        productRepository.save(
+                Product.builder()
+                        .id(targetProduct.getId())
+                        .name(product.getName())
+                        .price(product.getPrice())
+                        .date(product.getDate())
+                        .build()
+        );
     }
 
     @Transactional

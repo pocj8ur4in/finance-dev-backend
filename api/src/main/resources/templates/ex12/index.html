@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex12. 자판기 API with DB</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+<body>
+<div class="container">
+    <h1 lang="ko">ex12. 자판기 API with DB</h1>
+    <h3>자판기 상품 조회</h3>
+
+    <p id="productCount">상품 개수: 0개</p>
+
+    <table id="productTable"></table>
+
+    <button class="btn btn-add" onclick="addProduct()">추가</button>
+    <button type="button" onclick="document.location.href = '/'">처음으로</button>
+</div>
+<script>
+    async function addProduct() {
+        const modal = document.createElement('div');
+        modal.classList.add('modal');
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === this) document.body.removeChild(this);
+        });
+
+        const form = document.createElement('form');
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const name = this.querySelector('input[name="name"]').value;
+            const price = this.querySelector('input[name="price"]').value;
+            const date = this.querySelector('input[name="date"]').value;
+
+            const ex06PostRequest = {
+                product : {
+                    name: name,
+                    price: price,
+                    date: date
+                }
+            };
+
+            fetch('v1/api/ex12/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(ex06PostRequest)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('추가 실패');
+                    }
+                })
+                .catch(error => {
+                    console.error('에러:', error);
+                    alert('요청을 처리하는 동안 오류가 발생했습니다.');
+                });
+        });
+
+        form.innerHTML = `
+            <div class="modal-header">
+                <h2>상품 생성</h2>
+            </div>
+            <div class="form-group">
+                <label for="name">상품명</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="price">가격</label>
+                <input type="number" id="price" name="price" required>
+            </div>
+            <div class="form-group">
+                <label for="date">유통기한</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="button-row">
+                <button type="submit">추가</button>
+                <button type="button" onclick="document.body.removeChild(this.parentElement.parentElement.parentElement)">취소</button>
+            </div>
+        `;
+
+        modal.appendChild(form);
+        document.body.appendChild(modal);
+    }
+
+    async function fetchProducts() {
+        const response = await fetch('/v1/api/ex12');
+        if (response.ok) {
+            return await response.json();
+        } else {
+            alert('상품을 불러오는데 실패했습니다.');
+            return [];
+        }
+    }
+
+    async function deleteProduct(name) {
+        if (confirm('정말 삭제하시겠습니까?')) {
+            const response = await fetch('/v1/api/ex12/delete', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name })
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('삭제 실패');
+            }
+        }
+    }
+
+    async function printProductCount() {
+        const products = await fetchProducts();
+        const productCount = products.length;
+        document.getElementById('productCount').textContent = '상품 개수: ' + productCount + '개';
+    }
+
+    async function loadProducts() {
+        const products = await fetchProducts();
+
+        if (products.length === 0) {
+            return;
+        }
+
+        const table = document.getElementById('productTable');
+        const thead = document.createElement('thead');
+        table.appendChild(thead);
+        thead.innerHTML = `
+            <tr>
+                <th>상품명</th>
+                <th>가격</th>
+                <th>유통기한</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+        `;
+        const tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+
+        products.forEach(product => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${product.name}</td>
+                <td>${product.price}</td>
+                <td>${product.date}</td>
+                <td><button class="btn btn-edit" onclick="updateProduct(this)">수정</button></td>
+                <td><button class="btn btn-delete" onclick="deleteProduct('${product.name}')">삭제</button></td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        await printProductCount();
+    }
+
+    function updateProduct(button) {
+        const modal = document.createElement('div');
+        modal.classList.add('modal');
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === this) document.body.removeChild(this);
+        });
+
+        const form = document.createElement('form');
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const target = button.parentElement.parentElement.children[0].innerText;
+            const name = this.querySelector('input[name="name"]').value;
+            const price = this.querySelector('input[name="price"]').value;
+            const date = this.querySelector('input[name="date"]').value;
+
+            const ex06PutRequest = {
+                target: target,
+                product: {
+                    name: name,
+                    price: price,
+                    date: date
+                }
+            };
+
+            fetch('v1/api/ex12/update', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(ex06PutRequest)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('수정 실패');
+                    }
+                })
+                .catch(error => {
+                    console.error('에러:', error);
+                    alert('요청을 처리하는 동안 오류가 발생했습니다.');
+                });
+        });
+
+        form.innerHTML = `
+            <div class="modal-header">
+                <h2>상품 수정</h2>
+            </div>
+            <div class="form-group">
+                <label for="name">상품명</label>
+                <input type="text" id="name" name="name"
+                value="${button.parentElement.parentElement.children[0].innerText}" required>
+            </div>
+            <div class="form-group">
+                <label for="price">가격</label>
+                <input type="number" id="price" name="price"
+                value="${button.parentElement.parentElement.children[1].innerText}" required>
+            </div>
+            <div class="form-group">
+                <label for="date">유통기한</label>
+                <input type="date" id="date" name="date"
+                value="${button.parentElement.parentElement.children[2].innerText}" required>
+            </div>
+            <div class="button-row">
+                <button type="submit">수정</button>
+                <button type="button" onclick="document.body.removeChild(this.parentElement.parentElement.parentElement)">취소</button>
+            </div>
+        `;
+
+        modal.appendChild(form);
+        document.body.appendChild(modal);
+    }
+
+    loadProducts();
+</script>
+</body>
+</html>
